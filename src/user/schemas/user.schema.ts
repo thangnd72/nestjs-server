@@ -17,20 +17,15 @@ export class User {
   @Prop()
   description?: string;
 
-  @Prop()
+  @Prop({ required: true })
   email: string;
 
-  @Prop()
+  @Prop({ required: true })
   password: string;
-
-  @Prop()
-  completedAt?: Date;
 
   @Prop({ required: true })
   created?: Date;
 
-  @Prop()
-  deletedAt?: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
