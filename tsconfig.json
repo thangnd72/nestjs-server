@@ -17,6 +17,12 @@
       "@guards/*": ["guards/*"],
       "@user/*": ["user/*"],
       "@auth/*": ["auth/*"],
+      "@controllers/*": ["controllers/*"],
+      "@services/*": ["services/*"],
+      "@schemas/*": ["schemas/*"],
+      "@utils/*": ["utils/*"],
+      "@models/*": ["models/*"],
+      "@jobs/*": ["jobs/*"],
     }
   },
   "include": ["src/**/*"],
