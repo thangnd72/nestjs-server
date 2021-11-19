@@ -9,32 +9,22 @@ import {
   Post,
   UsePipes,
 } from '@nestjs/common';
-import { UserService } from '@services/user';
+import { UserService } from '@services/user.service';
 import { ParseObjectIdPipe } from '@utils/parse-object-id-pipe';
 import { Request as ExRequest } from 'express';
 import { JoiValidationPipe } from '../../utils/joi-validation-pipe';
 import { createUserValidation, updateUserValidation } from './user-validation';
 
-@Controller()
+@Controller('user')
 export class UserController {
   private readonly logger = new Logger(UserController.name);
 
   constructor(private readonly userService: UserService) {}
 
-  @Post('/getAllUsers')
-  getAllUsers(@Body() body: ExRequest['body']) {
-    return this.userService.paginate(body.query, body.options);
-  }
-
-  @Post('/getAllUserNoLimit')
-  getAllItemNoLimit(@Body() body: ExRequest['body']) {
-    return this.userService.findAll(body.query, body.options);
-  }
-
-  @Post('/users')
+  @Post('/register')
   @UsePipes(new JoiValidationPipe(createUserValidation))
-  addUser(@Body() body: ExRequest['body']) {
-    return this.userService.create(body);
+  register(@Body() body: ExRequest['body']) {
+    return this.userService.register(body);
   }
 
   @Post('/users/:id')

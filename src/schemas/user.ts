@@ -18,12 +18,9 @@ export type UserDocument = User & mongoose.Document;
     },
   },
 })
-export class User extends SchemaBase {
+export class User {
   @Prop({ required: true })
   fullName: string;
-
-  @Prop()
-  username: string;
 
   @Prop()
   firstName?: string;
@@ -40,7 +37,7 @@ export class User extends SchemaBase {
   @Prop()
   password: string;
 
-  @Prop({ required: true })
+  @Prop()
   created?: Date;
 
   @Prop({ required: false })

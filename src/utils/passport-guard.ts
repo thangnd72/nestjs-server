@@ -1,13 +1,13 @@
-import { ExecutionContext, Injectable, SetMetadata } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
-import { AuthGuard } from "@nestjs/passport";
+import { ExecutionContext, Injectable, SetMetadata } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { AuthGuard } from '@nestjs/passport';
 
-export const IS_PUBLIC_KEY = "isPublic";
+export const IS_PUBLIC_KEY = 'isPublic';
 
 export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 
 @Injectable()
-export class PpGuard extends AuthGuard("msgraph-strategy") {
+export class JwtAuthGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector) {
     super();
   }

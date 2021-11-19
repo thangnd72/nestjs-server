@@ -35,5 +35,5 @@ import * as compression from 'compression';
   );
   SwaggerModule.setup('/v1/documentation', app, document);
 
-  await app.listen(3000);
+  await app.listen(12345);
 })();

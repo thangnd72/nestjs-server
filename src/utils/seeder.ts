@@ -15,9 +15,10 @@ export class Seeder {
     const count = await this.userModel.collection.countDocuments();
     if (count === 0) {
       await this.userModel.collection.insertOne({
-        FullName: 'Administrator 1',
-        LoginName: 'adminm@fxp.vn',
-        IsActive: true,
+        email: 'thangnd72@wru.vn',
+        password: 'Abc@1234',
+        fullName: 'Nguyễn Đình Thắng',
+        isActive: 'true',
       });
     }
   }

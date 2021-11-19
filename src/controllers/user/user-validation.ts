@@ -2,7 +2,6 @@ import { User } from '@schemas/user';
 import * as Joi from 'joi';
 
 export const createUserValidation = Joi.object<User>({
-  username: Joi.string().required(),
   firstName: Joi.string().optional(),
   lastName: Joi.string().optional(),
   fullName: Joi.string().required(),
@@ -14,7 +13,6 @@ export const createUserValidation = Joi.object<User>({
 });
 
 export const updateUserValidation = Joi.object<User>({
-  username: Joi.string().required(),
   firstName: Joi.string().optional(),
   lastName: Joi.string().optional(),
   fullName: Joi.string().required(),

@@ -1,8 +1,9 @@
 import { JwtPayload } from './../models/jwt-payload';
-import { AuthService } from '@services/auth';
+import { AuthService } from '@services/auth.service';
 import { PassportStrategy } from '@nestjs/passport';
 import {
   CACHE_MANAGER,
+  forwardRef,
   HttpException,
   HttpStatus,
   Inject,
@@ -19,39 +20,26 @@ import * as crypto from 'crypto';
 import { ModelName } from '@schemas/01.model-names';
 import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 
-interface GraphUser {
-  id: string;
-  displayName: string;
-  givenName: string;
-  jobTitle: string | null;
-  mail: string;
-  mobilePhone: string | null;
-  officeLocation: string | null;
-  preferredLanguage: string | null;
-  surname: string;
-  userPrincipalName: string;
-}
-
-export interface CurrentUser {
-  graphUser: GraphUser;
-  dbUser: UserDocument;
-}
-
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   private readonly logger = new Logger(JwtStrategy.name);
 
-  constructor(private readonly authService: AuthService) {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: 'jwtsecretkey',
-    });
-  }
-  async validate(payload: JwtPayload, done: VerifiedCallback) {
-    const user = await this.authService.validateUser(payload);
-    if (!user) {
-      return done(new HttpException({}, HttpStatus.UNAUTHORIZED), false);
-    }
-    return done(null, user);
+  constructor(
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
+  ) {
+    super(
+      {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: 'jwt',
+      },
+      async (payload: JwtPayload, done: VerifiedCallback) => {
+        const user = await this.authService.validateUser(payload);
+        if (!user) {
+          return done(new HttpException({}, HttpStatus.UNAUTHORIZED), false);
+        }
+        return done(null, user);
+      },
+    );
   }
 }
